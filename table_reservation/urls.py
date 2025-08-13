@@ -9,8 +9,9 @@ router.register(r'tables',TableViewSet)
 router.register(r'reservations',ReservationViewSet)
 
 urlpatterns = [
-    path('',views.signup_view,name="signup"),
-    path('login/',views.login_view,name="login"),
+    path('',views.login_view,name="login"),
+    path('signup/',views.signup_view,name="signup"),
+    path('signup/login/',views.login_view,name='login'),
     path('home/',views.home,name="home"),
     path('home/reservation/',views.reservation,name="reservation"),
     path('cancel/<int:pk>/', views.cancel_reservation, name="cancel_reservation"),
