@@ -11,7 +11,7 @@ class Reservation(models.Model):
     STATUS_CHOICES=[
         ("pending","Pending"),
         ("Attendance","Attendance"),
-        ("no show","no show"),
+        ("no attend","no attend"),
         ("Cancelled by Staff", "Cancelled by Staff"),
     ]
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
