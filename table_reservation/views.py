@@ -15,6 +15,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from .models import Table, Reservation
 from .serializers import TableSerializer,ReservationSerializer
+from django.contrib.admin.views.decorators import staff_member_required
 
 def signup_view(request):
     if request.method == "POST":
@@ -132,3 +133,18 @@ def update_reservation(request, pk):
 def reservation(request):
     reservations = Reservation.objects.filter(user=request.user)  # sirf current user ke reservations
     return render(request, "reservation.html", {"reservations": reservations})
+
+
+@staff_member_required
+def staff_dashboard(request):
+    reservations = Reservation.objects.all().order_by('date', 'time')
+
+    if request.method == "POST":
+        res_id = request.POST.get("reservation_id")
+        new_status = request.POST.get("status")
+        reservation = Reservation.objects.get(id=res_id)
+        reservation.status = new_status
+        reservation.save()
+        return redirect("staff_dashboard")
+
+    return render(request, "staff.html", {"reservations": reservations})

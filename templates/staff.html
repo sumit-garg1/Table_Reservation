@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Dashboard</title>
+    <link rel="stylesheet" href={% static "staff.css" %}>
+</head>
+<body>
+    <div class="user-actions">
+      <a href="{% url 'login' %}">login</a>
+    </div>
+    <h1>All Reservations</h1>
+    <table border="1">
+        <tr>
+            <th>User</th>
+            <th>Table</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Status</th>
+            <th>Change Status</th>
+        </tr>
+        {% for res in reservations %}
+        <tr>
+            <td>{{ res.user.username }}</td>
+            <td>{{ res.table.name }}</td>
+            <td>{{ res.date }}</td>
+            <td>{{ res.time }}</td>
+            <td>{{ res.status }}</td>
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="reservation_id" value="{{ res.id }}">
+                    <select name="status">
+                        {% for choice, label in res.STATUS_CHOICES %}
+                        <option value="{{ choice }}" {% if choice == res.status %}selected{% endif %}>{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

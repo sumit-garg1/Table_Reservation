@@ -8,10 +8,17 @@ class Table(models.Model):
     def __str__(self):
         return f"{self.name} (capacity:{self.capacity})"
 class Reservation(models.Model):
+    STATUS_CHOICES=[
+        ("pending","Pending"),
+        ("Attendance","Attendance"),
+        ("no show","no show"),
+        ("Cancelled by Staff", "Cancelled by Staff"),
+    ]
     table = models.ForeignKey(Table, on_delete=models.CASCADE)
     user=models.ForeignKey(User,on_delete=models.CASCADE)
     date=models.DateField()
     time=models.TimeField()
-    
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default="Pending")
+
     def __str__(self):
-        return f"{self.table.name}on{self.date}at{self.time}"
+        return f"{self.table.name}on{self.date}at{self.time}-{self.status}"
