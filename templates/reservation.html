@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Reservations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="p-4">
+
+<nav class="mb-4">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'reservation' %}">Reservations</a>
+        </li>
+    </ul>
+</nav>
+
+<div class="container">
+    <h2 class="mb-4">My Reservations</h2>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Table</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in reservations %}
+            <tr>
+                <td>{{ r.table.name }}</td>
+                <td>{{ r.date }}</td>
+                <td>{{ r.time }}</td>
+                <td>
+                    <a href="{% url 'update_reservation' r.id %}" class="btn btn-primary btn-sm">Update</a>
+                    <a href="{% url 'cancel_reservation' r.id %}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to cancel this reservation?');">
+                       Cancel
+                    </a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4" class="text-center">No reservations found</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

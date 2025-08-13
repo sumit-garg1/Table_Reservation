@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book a Table</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; text-align: center; padding: 20px; }
+        form { background: white; padding: 20px; display: inline-block; border-radius: 5px; }
+        label { display: block; margin-top: 10px; font-weight: bold; }
+        select, input, button { padding: 8px; margin-top: 5px; width: 100%; max-width: 250px; }
+        button { background: #4CAF50; color: white; border: none; cursor: pointer; }
+        button:hover { background: #45a049; }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+<body>
+    <div container="nav-bar">
+    <nav>
+        <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="home.html">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="reservation">Reservations</a>
+        </li>
+        </ul>
+    </nav>
+    </div>
+    <h1>Restaurant Reservation</h1>
+    <form method="POST" class="row g-3 justify-content-center">
+    {% csrf_token %}
+    
+    <div class="col-md-3">
+        <label class="form-label fw-bold">Date:</label>
+        <input type="date" name="date" class="form-control" required>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label fw-bold">Time:</label>
+        <input type="time" name="time" class="form-control" required>
+    </div>
+
+    <div class="col-md-3">
+        <label class="form-label fw-bold">Select Table:</label>
+        <select name="table" class="form-select" required>
+            {% for t in tables %}
+            <option value="{{ t.id }}">{{ t.name }} (Capacity: {{ t.capacity }})</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="col-md-2 align-self-end">
+        <button type="submit" class="btn btn-success w-100">Book Now</button>
+    </div>
+</form>
+
+
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+    {% if success %}
+        <p style="color:green;">{{ success }}</p>
+    {% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+</body>
+</html>
